@@ -1,0 +1,260 @@
+// Place all the styles related to the online_books controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+$ushmm_blue: 			#4f6d91;
+$ushmm_blue_highlight:	#699ad6;
+$ushmm_blue_dark:		#32465e;
+
+$ushmm_orange:			#e67700;
+$ushmm_orange_highlight: #289a14;
+
+$ushmm_beige:			#f1ede8;
+
+$ushmm_white:			#ffffff;
+
+
+// special:
+$ushmm_light_gray_box:	#dfdfdf;
+
+
+
+// oddballs:
+$ushmm_subscribe_text_input_text:	#666666;
+$ushmm_subscribe_text_input_bg:		#e1e1e1;
+$ushmm_search_text_input_text:		#afafaf;
+$ushmm_search_text_input_bg:		#383838;
+
+$ushmm_footer_bg_med_gray:			#303030;
+$ushmm_footer_bg_near_black:		#111111;
+
+$ushmm_translater_footer_bg:		#191919;
+
+
+// grays for light background:
+$ushmm_near_black_text:				#121212;
+$ushmm_typical_dark_gray_text:		#444242;
+$ushmm_headline_med_gray_text:		#666666;
+
+// grays for dark background
+$ushmm_near_black_bg:					#2a2a28;
+$ushmm_light_gray_for_near_black_bg:	#afafaf;
+
+
+@mixin font_1 {
+	font: normal 14px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+@mixing font_2 {
+	/*font: normal 400 17px/18px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+	/*font: normal 400 42px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+	/*font: normal 24px/30px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+}
+@mixin font_for_breadcrumbs {
+	margin: 0 0 0.4em; color: #666; font: bold 11px Helvetica, Arial, sans-serif; text-transform: uppercase;
+}
+@mixin font_for_heading {
+	font: normal 400 40px/48px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;
+}
+@mixin font_1_italic {
+	font: italic 16px/22px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+@mixin serif_font_for_copy {
+	font: normal 14px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+
+div.top_wrapper {
+	-webkit-font-smoothing: antialiased;
+}
+
+div.dark {
+	background: url('bg-radial.jpg') no-repeat;
+	background-color: $ushmm_near_black_bg;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+div.heading_container, div.display_container {
+
+	padding-top: 50px;
+	padding-left: 42px;
+	margin: 0 auto;
+	padding-top: 62px;
+}
+
+div.display_container{
+	position: absolute;
+	/*border: 1px solid red;*/
+	left: 10px;
+	right: 10px;
+	top: 164px;
+	bottom: 10px;
+}
+div.heading_container{
+	/*height: 202px;*/
+	height: 100px;
+	width: 980px;
+	/*border: 1px solid orange;*/
+	position: relative;
+}
+div#selected_page {
+	/*border: 2px solid pink;*/
+	position:absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 100px;
+	right: 35%;
+	text-align: center;
+}
+
+div#flip_div {
+	height:auto;
+	width:auto;
+	position:relative;
+	z-index:1;
+	margin:0px auto;
+	overflow:hidden;
+	display:inline;
+	float:center;
+	// border: solid 4px purple;
+}
+
+div#flip_div2 {
+	 height:auto;
+	 width:auto;
+	 position:relative;
+	 z-index:1;margin:0px auto;
+	 display:inline-block;
+	 float:center;
+	// border: solid 4px yellow;
+}
+
+div#flip_div img {
+	// position: relative;
+	//display: inline-block;
+	//text-align: center;
+	//display: block;
+}
+
+div#selected_page img {
+}
+
+div#transcript_area {
+	@include serif_font_for_copy;
+	background-color: white;
+	color: black;
+	width: 90%;
+	text-transform: none;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	overflow-y: auto;
+	height: 80%
+}
+
+div#info_panel {
+	position: absolute;
+	left: 65%;
+	right: 10px;
+	top: 200px;
+	bottom: 2em;
+	margin-left: 10px;
+	// height: 300px;
+	// border: solid 3px blue;
+
+	@include font_for_heading;
+	color: white;
+	font-size: 14pt;
+	overflow: hidden;
+}
+
+div#clickable-thumbs {
+	overflow-x: scroll; position:absolute;
+	left: 65%;
+	right: 18px;
+	top: 10px;
+	white-space: nowrap;
+	border: solid 1px $ushmm_light_gray_for_near_black_bg;
+	margin-left: 10px;
+	height: 166px;
+	padding-top: 1em;
+	margin-bottom: 1em;
+	background-color: black;
+}
+
+div#clickable-thumbs img {
+	border: 4px solid black;
+}
+
+div#clickable-thumbs img.selected_thumbnail {
+	border: 4px solid $ushmm_orange;
+}
+
+div.page_designation {
+	padding: 0;
+	margin: 0;
+	color: $ushmm_light_gray_for_near_black_bg;
+	text-align: center;
+	width: 100%;
+}
+
+#carousel_button_left {
+	display:block;
+	width:35px;
+	height:36px;
+	background-image: image-url("arrow-slideshow-left.png");
+	background-position:0px 0px;
+	float: left;
+}
+#carousel_button_left:hover {
+	background-position:0px -36px;
+}
+#carousel_button_right {
+	display:block;
+	width:35px;
+	height:36px;
+	background-image: image-url("arrow-slideshow-right.png");
+	background-position:0px 0px;
+	float: left;
+	margin-left: 0.5em;
+}
+#carousel_button_right:hover {
+	background-position:0px -36px;
+}
+
+#transcript_header {
+	float: left;
+	clear: left;
+}
+
+#link_area {
+	float: left;
+	padding-left: 3em;
+	@include serif_font_for_copy;
+	color: $ushmm_blue;
+	font-size: 10pt;
+	line-height: 160%;
+}
+
+#link_area a:hover {
+	color: $ushmm_blue_highlight;
+}
+
+div.logo {
+	/*border: 1px solid green;*/
+	position: absolute;
+	display: block;
+	right: 54px;
+	top: 34px;
+	text-align: right;
+}
+span.heading {
+	@include font_for_heading;
+	color: $ushmm_white;	
+}
+span.breadcrumbs {
+	@include font_for_breadcrumbs;
+}
+

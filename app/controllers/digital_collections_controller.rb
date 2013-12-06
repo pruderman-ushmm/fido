@@ -1,0 +1,2 @@
+class DigitalCollectionsController < ApplicationController
+end

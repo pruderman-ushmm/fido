@@ -1,0 +1,2 @@
+class FilePatternsController < ApplicationController
+end

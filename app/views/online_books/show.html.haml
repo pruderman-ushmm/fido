@@ -1,0 +1,70 @@
+%div{:id => "reader_container", :style => 'border: 2px solid cyan; position: fixed; top: 0; height: 100%; width: 99%'}
+
+	%h2= "Book: " + @online_book.title
+
+
+	%div{:id => 'clickable-thumbs', :style => "overflow-x: scroll; width: 100%; white-space: nowrap; border: solid 2px purple;"}
+		%ul
+			- @online_book.pages.each do |page|
+				%li{:style => 'display: inline; list-style-type: none; padding-right: 10px;'}
+					%img{:id => "thumb_#{page.id}",
+						:src => page.derivative_url,
+						:style => 'max-height: 100px; max-width: 100px;',
+						'data-full_image_url' => page.derivative_url,
+						'data-zoom_image' => page.url}
+
+	%div{:id => 'selected_page_area', :style => 'border: 2px solid green; position:relative; height: 90%; width: 50%;'}
+		%p thing
+		%div{:id => 'selected_page', :style => 'border: 2px solid red; position:relative; height: 50%; width: 50%;'}
+
+
+
+:javascript
+	$(function() {
+		do_it_now = function() {
+			$("\#selected_page_image").elevateZoom({tint: true, tintColour: "#000", tintOpacity: 0.4,
+				easing: true,
+				easingAmount: 3,
+				zoomWindowHeight: 600,
+				zoomWindowWidth: 600,
+				zoomWindowFadeIn: 1000,
+				zoomWindowFadeOut: 200,
+				zoomTintFadeIn: 1000,
+				zoomTintFadeOut: 200,
+				lensFadeIn: 400,
+				lensFadeOut: 200,
+				scrollZoom: true,
+				responsive: true,
+				loadingIcon: true
+			});
+		}
+
+
+		var clickable_thumbs = $('#clickable-thumbs img')
+
+		clickable_thumbs.each( function(i,this_thumb){
+			this_thumb.onclick = function(e){
+			    var evt = e || window.event;
+			    var clicked_thumbnail = evt.target || evt.srcElement;
+		    
+			    // Need to do this to de-activate zoomer before switching images!
+			    // Otherwise, artifacts hang around.
+			    var page_image = $('#selected_page_image');
+			    page_image.removeData('elevateZoom');
+			    $('.zoomContainer').remove();
+			    page_image.remove();
+
+
+			    var page = $('#selected_page');
+			    page.empty();
+			    page.html('<img id="selected_page_image" src="' + clicked_thumbnail.dataset.full_image_url + '" data-zoom-image="' + clicked_thumbnail.dataset.zoom_image + '" style="max-height: 100%; max-width: 100%;">');
+			    do_it_now();
+			}
+		});
+	});
+
+/ <img id="zoom_01" src='images/small/image1.png' data-zoom-image="images/large/image1.jpg"/>
+
+/ <script>
+/     $('#zoom_01').elevateZoom();
+/ </script>

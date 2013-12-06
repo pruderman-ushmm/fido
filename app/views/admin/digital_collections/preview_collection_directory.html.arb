@@ -1,0 +1,132 @@
+
+
+	form_for(assigns[:digital_collection], url: ingest_collection_directory_admin_digital_collection_path, :method=>:post) do |f|
+		# input type: 'hidden', name: 'path_within_archive', value:'bob'
+		# f.input '', type: :text, name: :path_within_archive, value: ingest_collection_directory_admin_digital_collection_path
+		f.input '', type: :submit, value: 'Ingest All'
+	end
+
+   	h3 "Files — #{digital_collection.path_within_archive}"
+
+    	table do
+    		tr do
+    			th "Asset File"
+    			th "Collection Component (from filename)"
+    			th "Leftover Filename Components"
+    			th "Item Designation"
+    			th "Collection Component (stored)"
+    			th "Ingested?"
+    			th "Derivative?"
+    			th "Status"
+    			th "Actions"
+    		end
+	    	assigns[:annotated_digital_asset_file_object_list].each { |hx|
+	    		f = hx['digital_asset_file'].path_within_directory
+	    		tr do 
+	    			td f
+	    			if hx['classification']
+		    			td link_to hx['classification'], admin_collection_component_path(hx['classification'])
+		    		else
+		    			td '(Unable to find matching collection component.)'
+		    		end
+	    			td hx['leftovers'].map{|k,v| "#{k}: #{v}"}.join("<br/>").html_safe
+	    			td hx['item_designation']
+
+	    			td (if hx['digital_asset_object']
+	    				link_to hx['digital_asset_object'].collection_component, admin_collection_component_path(hx['digital_asset_object'].collection_component)
+	    			else
+	    				''
+	    			end)
+
+	    			## Ingested column:
+	    			td (if hx['digital_asset_object']
+		    			if hx['digital_asset_object'].collection_component != hx['classification']
+				    		status_tag 'Component-Mismatch', :error
+				    	else
+			    			link_to hx['digital_asset_object'].collection_component, admin_collection_component_path(hx['digital_asset_object'].collection_component)
+				    		status_tag 'Yes', :ok
+		    			end
+		    		else
+		    			status_tag 'No', :warn
+		    		end)
+
+		    		## Derivative column:
+		    		td do
+		    			if hx['digital_asset_object']
+			    			if hx['digital_asset_object'].derivative_file.exists?
+			    				status_tag 'Yes', :ok
+			    			else
+			    				status_tag 'No', :warn
+			    			end
+			    		else
+			    		end
+		    		end
+
+	    			# Status column:
+	    			td do
+		    			if hx['leftovers'].count > 0
+		    				status_tag 'Component Missing', :error
+		    			else
+							if hx['digital_asset_object']
+				    			link_to hx['digital_asset_object'].collection_component.full_designation, admin_collection_component_path(hx['digital_asset_object'].collection_component)
+				    			if hx['digital_asset_object'].collection_component != hx['classification']
+				    				status_tag 'Component-Mismatch', :error
+				    			end
+				    		else
+
+				    			if hx['classification']
+					    			status_tag 'Ready to Ingest', :green
+					    			td link_to hx['classification'], admin_collection_component_path(hx['classification'])
+					    		else
+					    			status_tag 'No Match', :error
+					    		end
+
+				    		end
+		    			end
+
+	    			end
+
+
+	    			td hx['leftovers'].map{ |k,v|
+	    				link_to("Create [#{k} #{v}] component", new_admin_collection_component_path(parent: hx['classification'].id,
+	    					designation: v, component_level: k))
+	    			}.join("<br/>").html_safe
+
+
+
+	    			td do
+	    				if hx['digital_asset_object']
+				        	para link_to "Uningest", admin_digital_asset_path(hx['digital_asset_object']), method: "delete", class: "button"
+
+		    				# ## Ingest‽ button (for testing validations):
+		    				# form_for(assigns[:digital_collection], url: ingest_asset_admin_digital_collection_path, method: :post) do |g|
+		    				# 	g.input type: :hidden, name: 'asset_path_within_collection', value: f
+		    				# 	g.input '', type: :submit, value: 'Ingest‽'
+		    				# end
+
+
+				        	# OLD Un-ingest button:
+		    				# form_for(assigns[:digital_collection], url: uningest_asset_admin_digital_collection_path, method: :post) do |g|
+		    				# 	g.input type: :hidden, name: 'asset_path_within_collection', value: f
+		    				# 	g.input '', type: :submit, value: 'Un-ingest'
+		    				# end
+			    			if hx['digital_asset_object'].derivative_file.exists?
+			    				form_for(hx['digital_asset_object'], url: destroy_derivative_admin_digital_asset_path(hx['digital_asset_object']), method: :post) do |g|
+			    					g.input '', type: :submit, value: 'Delete Derivative'
+			    				end
+			    			else
+			    				form_for(hx['digital_asset_object'], url: generate_derivative_admin_digital_asset_path(hx['digital_asset_object']), method: :post) do |g|
+			    					g.input '', type: :submit, value: 'Generate Derivative'
+			    				end
+			    			end
+		    			else
+		    				## Ingest button:
+		    				form_for(assigns[:digital_collection], url: ingest_asset_admin_digital_collection_path, method: :post) do |g|
+		    					g.input type: :hidden, name: 'asset_path_within_collection', value: f
+		    					g.input '', type: :submit, value: 'Ingest'
+		    				end
+		    			end
+	    			end
+	    		end
+	    	}
+	    end

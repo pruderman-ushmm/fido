@@ -1,0 +1,8 @@
+<h1>Names of all the collection_components</h1>
+
+<p>x <%= collection_components_path %> y</p>
+<p>x <%= admin_root_path %> y</p>
+
+<% @collection_components.each do |cc| %>
+  Name: <%= cc.title %><br/>
+<% end %>
