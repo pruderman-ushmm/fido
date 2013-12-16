@@ -8,7 +8,10 @@ class OnlineBook < ActiveRecord::Base
 		puts "Found #{collection_component.descendant_digital_assets.count} pages."
 		collection_component.descendant_digital_assets
 	end
-	def pages
+	def new_pages
 		digital_assets.includes(:collection_component)
+	end
+	def pages
+		new_pages
 	end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131119145811) do
+ActiveRecord::Schema.define(version: 20131216150001) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20131119145811) do
     t.text     "page_transcript"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "designation"
   end
 
   create_table "digital_collections", force: true do |t|
@@ -134,6 +135,7 @@ ActiveRecord::Schema.define(version: 20131119145811) do
     t.integer  "collection_component_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "designation"
   end
 
   create_table "online_pages", force: true do |t|

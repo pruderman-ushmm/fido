@@ -2,7 +2,7 @@ class DigitalAsset < ActiveRecord::Base
 	belongs_to :collection_component
 	scope :by_digital_collection, ->(digital_collection) { where("digital_collection = ?", digital_collection) }
 	has_many :online_pages
-	has_many :online_books, through: :online_pages
+	has_many :online_books, through: :online_pages, dependent: :restrict
 
 	validates :path_within_collection, presence: true, uniqueness: {scope: :collection_component, message: "should only be in collection once"}
 	validates :collection_component, presence: true
@@ -86,11 +86,11 @@ class DigitalAsset < ActiveRecord::Base
 	end
 
 	def generate_derivative!
-		derivative_type = :booksize
+		derivative_type = :thumbnail
 		case derivative_type
 		when :thumbnail
-			new_height = 300
-			new_width = 300
+			new_height = 120
+			new_width = 120
 		when :booksize
 			new_height = 1000
 			new_width = 1000
@@ -113,7 +113,7 @@ class DigitalAsset < ActiveRecord::Base
 
 		## Does the path exist in the derivative tree?
 		if (! derivative_file.exists?)
-			command = Shellwords.join(["/usr/bin/convert", '-verbose', original_abs_path.to_s, '-resize', new_width.to_s+'x'+new_height.to_s, derivative_abs_path.to_s])
+			command = Shellwords.join(["/usr/bin/convert", '-verbose', original_abs_path.to_s, '-resize', new_width.to_s+'x'+new_height.to_s, '-quality', '20', derivative_abs_path.to_s])
 			command_output = `#{command}`
 			exit_value = $?
 			if (exit_value != 0)

@@ -1,3 +1,4 @@
+- content_for :title, @online_book.title + " - United States Holocaust Memorial Museum"
 %link{:rel => "stylesheet", :type => "text/css", :href => "//cloud.typography.com/683468/690822/css/fonts.css"}
 %div{:class => 'top_wrapper'}
 	%div{:class => 'dark'}
@@ -6,7 +7,9 @@
 				%a{:href => "http://www.ushmm.org/", :class => "logo-link"}
 					= image_tag "logo-alt-head.png"
 			%span{:class => 'breadcrumbs'}
-				Home > Collections > Digital Collections
+				%a{:href => 'http://www.ushmm.org/'} Home
+				&gt;
+				%a{:href => 'http://collections.ushmm.org/search/catalog/irn73077'} Collections Search
 			%br
 			%span{:class => 'heading'}
 				=@online_book.title
@@ -25,25 +28,39 @@
 						%li{:style => 'display: inline; list-style-type: none; padding-right: 10px; padding-bottom: 0; margin-bottom: 0;'}
 							%div{:style => 'display: inline-block;'}
 								%img{:id => "thumb_#{page_id}",
-									:src => page[:derivative_url],
-									:style => 'max-height: 100px; max-width: 100px; margin: 0;',
+									'data-original' => page[:derivative_url],
+									:style => 'height: ' + page[:derivative_height].to_s + 'px; width: ' + page[:derivative_width].to_s + 'px; margin: 0;',
+									:class => 'lazy',
 									'data-page_id' => page_id}
+								// %img{:id => "thumb_#{page_id}",
+								// 	:src => page[:derivative_url],
+								// 	:style => 'max-height: 100px; max-width: 100px; margin: 0;',
+								// 	'data-page_id' => page_id}
 								%div{:class => 'page_designation'}
-									=page_id
-									// =page[:designation]
+									// =page_id
+									=page[:designation]
 			%div{:id => 'info_panel'}
 				%div{:href => '#', :id => 'carousel_button_left'}
 				%div{:href => '#', :id => 'carousel_button_right'}
 				%div{:id => 'link_area'}
 					%a{:href=>'http://www.ushmm.org/information/exhibitions/online-features/special-focus/the-alfred-rosenberg-diary'}
-						More about The Alfred Rosenburg Diary →
+						Learn More about the Rosenberg Diary →
 					%br
-					%a{:href=>'http://collections.ushmm.org/search/catalog/irn518182'}
-						See catalog record for this collection →
+					%a{:href=>'http://collections.ushmm.org/search/catalog/irn73077'}
+						View catalog record →
 				%div{:id => 'transcript_header'} TRANSCRIPT
 				%div{:id => 'transcript_area'}
 					[no transcript for this page]
-				/ %div{:id => 'selected_page_area', :style => 'border: 2px solid green; position:relative; height: 90%; width: 50%;'}
+				%div{:id => 'transcript_footer'}
+					%a{:href => 'http://www.ushmm.org/copyright-and-legal-information/terms-of-use', :target=>'_blank'} TERMS OF USE
+					&nbsp;|&nbsp;
+					%a{:id => 'open_dialog', :style => 'cursor: pointer;'} TRANSCRIPT INFO
+				%div{:id => 'dialog', :style => 'display: none;'}
+					%p
+						This transcript comprises the German text of Alfred Rosenberg’s diary entries from 1936 to 1944. It does not include his entries from 1934 to 1935, held at the National Archives and Records Administration, or related documents, annotations, or references to already published portions of the diary.
+					%p
+						Deletions and emphases in the transcript resemble the original; square brackets enclose transcriber comments on legibility and style. The transcript has not been finalized for spelling ambiguities (especially regarding names) and other peculiarities of the original.
+					
 
 
 %script
@@ -68,52 +85,60 @@
 			}
 		}
 
-
 		oara_get_url_param = function(name) {
 			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 		}
 
+		oara_scoll_into_view = function(page_id) {
+		    var clicked_thumbnail = $('img#thumb_'+page_id)
+		    clicked_thumbnail.scrollintoview({  // jQuery scrollintoview plugin
+		    	duration: 300,
+		    	complete: function () {
+				    // FLIP!?
+					$("#selected_page #flip_div #flip_div2").flippy({
+					    // verso:"Hi !",
+					    verso:'<img id="selected_page_image" src="' + pages_data[page_id].url + 
+					    '" data-zoom-image="' + pages_data[page_id].url + '" style="max-height: 100%; max-width: 100%;">',
+					    direction:"LEFT",
+					    duration:"200",
+					    color_target: "#000000",
+					    onFinish: function() {
+						    oara_initialize_elevateZoom();
+		    			    var transcript_area = $('#transcript_area');
+		    			    transcript_area.html(pages_data[page_id].transcript||'[no transcript for this page]');
+		    			    clicked_thumbnail.scrollintoview({
+		    			    	duration: 300
+		    			    });
+					    }
+					});
+		    	}
+		    }); 
+		}
+
 		oara_flip_to_page = function(page_id) {
 
-				// alert('next: ' + oara_next_page_id(page_id, 1))
-				// alert('prev: ' + oara_next_page_id(page_id, -1))
 
-			    // alert('img#thumb_'+page_id);
 			    var clicked_thumbnail = $('img#thumb_'+page_id)
-			    // alert(clicked_thumbnail);
 
 			    // Center the selected thumbnail.
 			    // When complete, change the page being viewed (using a transition).
 			    // Then, reinitialize the zoomer.
-			    clicked_thumbnail.scrollintoview({  // jQuery scrollintoview plugin
-			    	duration: 300,
-			    	complete: function () {
-					    // FLIP!?
-						$("#selected_page #flip_div #flip_div2").flippy({
-						    // verso:"Hi !",
-						    verso:'<img id="selected_page_image" src="' + pages_data[page_id].derivative_url + 
-						    '" data-zoom-image="' + pages_data[page_id].url + '" style="max-height: 100%; max-width: 100%;">',
-						    direction:"LEFT",
-						    duration:"200",
-						    color_target: "#000000",
-						    onFinish: function() {
-							    oara_initialize_elevateZoom();
-			    			    transcript_area.html(pages_data[page_id].transcript||'(no transcript)');
-						    }
-						});
-			    	}
-			    });  
+				oara_scoll_into_view(page_id); 
+
+				oara_preload_image_for_page_id(oara_next_page_id(page_id, 1));
+				oara_preload_image_for_page_id(oara_next_page_id(page_id, -1));
+				oara_preload_image_for_page_id(oara_next_page_id(page_id, 2));
 
 			    // Deactivate zoomer:
 			    oara_deactivate_elevateZoom();
 
 			    // Remove highlight from all thumbnails:
-			    $('div#clickable-thumbs img').removeClass('selected_thumbnail')
+			    $('div#clickable-thumbs img').removeClass('selected_thumbnail');
 			    // Highlight the selected thumbnail
-			    $(clicked_thumbnail).addClass('selected_thumbnail')
+			    $(clicked_thumbnail).addClass('selected_thumbnail');
 
 			    // Pull the transcript into its display area:
-			    var transcript_area = $('#transcript_area')
+			    var transcript_area = $('#transcript_area');
 			    transcript_area.empty();
 
 
@@ -156,8 +181,10 @@
 		}
 
 		oara_change_to_page_id = function(new_page_id) {
-			current_page_id = new_page_id;
-			History.pushState({page_id:new_page_id}, "State "+new_page_id, "?page="+new_page_id);
+			if (new_page_id) {
+				current_page_id = new_page_id;
+				History.pushState({page_id:new_page_id}, book_data.title + " - Page "+new_page_id+ " - United States Holocaust Memorial Museum", "?page="+new_page_id);
+			}
 		}
 
 		oara_change_to_next_page = function () {
@@ -168,6 +195,34 @@
 		oara_change_to_prev_page = function () {
 			oara_change_to_page_id(oara_next_page_id(current_page_id, -1));
 			return false;
+		}
+
+		oara_force_window_height = function () {
+			if (false) {
+				/* Activate this block to determine the "magic_number", using Chrome or Safari. */
+				$( "body" ).prepend( "<div>" + $( window ).height() + ':' + $('#selected_page').height() + "</div>" );
+				$( "body" ).prepend( "<div>" + ($( window ).height() - $('#selected_page').height()) + "</div>" );
+			} else {
+				/* FF and IE require the height to be "forced" on these elements, else the contained image will not scale. */
+				magic_number = 130;
+				$('#selected_page').height($( window ).height()-magic_number);
+				$('#flip_div').height($( window ).height()-magic_number);
+				$('#flip_div2').height($( window ).height()-magic_number);
+				$('#flip_div2 img').height($( window ).height()-magic_number);
+				$('.zoomContainer').height($( window ).height()-magic_number);
+				$('.tintContainer').height($( window ).height()-magic_number);
+			    oara_deactivate_elevateZoom();
+			    oara_initialize_elevateZoom();
+			}
+		};
+
+		oara_preload_image_for_page_id = function(page_id) {
+			if (page_id) {
+				image_url = pages_data[page_id].url;
+		        $('<img/>')[0].src = image_url;
+		        // Alternatively you could use:
+		        // (new Image()).src = image_url;
+			}
 		}
 
 		var clickable_thumbs = $('#clickable-thumbs img')
@@ -190,6 +245,18 @@
 
 
 		(function(window,undefined){
+	        $(document).ready(function () {
+	            $("#open_dialog").click(function () {
+	                $("#dialog").dialog({
+	                	modal: true,
+	                	height: 280,
+	                	width: 480,
+	                	closeOnEscape: true,
+	                	title: "Transcript Information"
+	                });
+	            });
+	        });
+
 			// Prepare
 			var History = window.History; // Note: We are using a capital H instead of a lower h
 
@@ -206,14 +273,6 @@
 				oara_flip_to_page(State.data.page_id);
 			});
 
-		    // Put the initial state in the History:
-			var State = History.getState(); // Note: We are using History.getState() instead of event.state
-			var initial_page = oara_get_url_param('page');
-			oara_flip_to_page(initial_page);
-
-			current_page_id = initial_page;  // (global)
-		    History.pushState({page_id: initial_page}, $("title").text(), State.urlPath);
-		    // !!! Must scrollintoview here!
 
 		    $('#carousel_button_left').on('click', null, null, function(e) { oara_change_to_prev_page(); });
 		    $('#carousel_button_right').on('click', null, null, function(e) { oara_change_to_next_page(); });
@@ -233,6 +292,50 @@
 
 				return true;
 			});
+
+			$(function() {
+			    $("img.lazy").lazyload({
+			    	     container: $("#clickable-thumbs"),
+		    	         // failure_limit : 100,
+		    	         // threshold : 100,
+	    	             skip_invisible : false
+			    });
+			});
+
+			$( window ).resize(function() {
+				oara_force_window_height();  // do upon resize
+			});
+
+			oara_force_window_height();  // do it now
+
+		    // Put the initial state in the History:
+			var State = History.getState(); // Note: We are using History.getState() instead of event.state
+			var initial_page = oara_get_url_param('page');
+			if (! initial_page) {
+				initial_page = 1;
+			}
+			oara_flip_to_page(initial_page);
+			document.title = book_data.title + ' - Page ' + initial_page + ' - United States Holocaust Memorial Museum';
+
+			current_page_id = initial_page;  // (global)
+		    History.pushState({page_id: initial_page}, $("title").text(), State.urlPath);
+
+
+		    // Google Analytics
+		    var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-34936065-1']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+			// GA Event:
+			_gaq.push(['_trackEvent',
+			      'Page Viewed by Type',
+			      'Alfred Rosenberg diary',
+			   ]);
 
 
 		})(window);

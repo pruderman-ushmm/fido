@@ -2,7 +2,7 @@
 module Admin
 	module IngestionHelper
 	   def self.ingest digital_asset_file_object, digital_collection
-	    	num_ingested = 0
+	    	# num_ingested = 0
 			collection_component_classification, item_designation, leftovers = digital_asset_file_object.match_into_digital_collection digital_collection
 
 
@@ -19,6 +19,7 @@ module Admin
 	   		da.digital_asset_file = digital_asset_file_object
 			da.path_within_collection = digital_asset_file_object.path_within_directory
 			da.collection_component = collection_component_classification
+			da.designation = item_designation
 			if da.valid?
 	    		da.save!
 	    		return true
@@ -32,11 +33,11 @@ end
 ActiveAdmin.register DigitalCollection do
 	#<ActiveAdmin::ResourceDSL> EXECUTION CONTEXT
 
-	action_item do
-		link_to "Test Index", admin_digital_collections_path
+	action_item only: :show do
+		link_to "Generate All Derivatives", generate_all_asset_derivatives_admin_digital_collection_path(digital_collection), method: :post
 	end
 	action_item only: :show do
-		link_to "Ingest Collection Directory", preview_collection_directory_admin_digital_collection_path(digital_collection)
+		link_to "Scan Collection Directory", preview_collection_directory_admin_digital_collection_path(digital_collection)
 	end
 
 
@@ -47,28 +48,51 @@ ActiveAdmin.register DigitalCollection do
 	end
 
 
+	member_action :generate_all_asset_derivatives, method: :post do
+		num_queued = 0
+	    @digital_collection = DigitalCollection.find(params[:id])
+	    @digital_collection.collection_component.descendant_digital_assets.each do |dda|
+	    	unless dda.derivative_file.exists?
+	    		dda.delay.generate_derivative!
+	    		num_queued += 1
+	    	end
+	    end
+
+		if num_queued == 0
+		    redirect_to({:action => :preview_collection_directory}, flash: {error: "#{num_queued} assets queued."})
+		else
+		    redirect_to({:action => :preview_collection_directory}, :alert => "#{num_queued} assets queued.")
+		end
+	end
+
 	member_action :preview_collection_directory, method: :get do
 	    @digital_collection = DigitalCollection.find(params[:id])
 
     	## Retrieve the file list from the filesystem...
     	@digital_asset_file_object_list = DigitalAssetFile.all_from_directory(@digital_collection.absolute_path)
 
-		####################################################################
-    	@annotated_digital_asset_file_object_list = @digital_asset_file_object_list.map { |f|
-    		classification, item_designation, leftovers = f.match_into_digital_collection @digital_collection
-    		
-    		## Find the asset's resource if it has already been ingested.
-    		digital_asset_object = DigitalAsset.find_by path_within_collection: f.path_within_directory
-    		
-    		{
-    			digital_asset_file: f,
-    			classification: classification,
-    			leftovers: leftovers,
-    			item_designation: item_designation,
-    			digital_asset_object: digital_asset_object
-    		}
-    	}
-		####################################################################
+    	if ! File.exists? @digital_collection.absolute_path
+    		@big_error = "Collections directory does not exist: #{@digital_collection.absolute_path}"
+    	elsif @digital_asset_file_object_list.count > 0
+			####################################################################
+	    	@annotated_digital_asset_file_object_list = @digital_asset_file_object_list.map { |f|
+	    		classification, item_designation, leftovers = f.match_into_digital_collection @digital_collection
+	    		
+	    		## Find the asset's resource if it has already been ingested.
+	    		digital_asset_object = DigitalAsset.find_by path_within_collection: f.path_within_directory
+	    		
+	    		{
+	    			digital_asset_file: f,
+	    			classification: classification,
+	    			leftovers: leftovers,
+	    			item_designation: item_designation,
+	    			digital_asset_object: digital_asset_object
+	    		}
+	    	}
+			####################################################################
+		else
+    		@big_error = "No files found in: #{@digital_collection.absolute_path}"
+		end
 	end
 
 
@@ -96,7 +120,7 @@ ActiveAdmin.register DigitalCollection do
 
 
 	member_action :uningest_asset, method: :post do
-	    redirect_to({action: :preview_collection_directory, resource: :digital_asset_file}, notice: "Collection ingested successfully.")
+	    redirect_to({action: :preview_collection_directory, resource: :digital_asset_file}, notice: "Asset un-ingested successfully.")
 	end
 
 
@@ -154,8 +178,13 @@ ActiveAdmin.register DigitalCollection do
 		column :collection_component
 		column :path_within_archive
 		column :file_pattern
-		default_actions
+		# default_actions
+	    actions defaults: true do |digital_collection|
+			link_to "Scan Directory", preview_collection_directory_admin_digital_collection_path(digital_collection), :method => :get
+		end
+
 	end
+
 
 	show do
       	attributes_table do

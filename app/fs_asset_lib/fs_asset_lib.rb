@@ -19,6 +19,11 @@ module FsAssetLib
 
 
 	def self.get_image_dimensions abs_path
+
+		unless File.exists? abs_path
+			return nil
+		end
+
 		# Run the external command:
 		command = Shellwords.join(["/usr/bin/rdjpgcom", '-v',  abs_path])+" 2>&1"
 		command_output_all = `#{command}`

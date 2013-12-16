@@ -19,17 +19,17 @@ ActiveAdmin.register DigitalAsset do
 			end
 			para da.digital_asset_file
 			para da.url
-			para da.digital_asset_file.exists? ? 'Exists' : 'Does not exists'
+			para da.digital_asset_file.exists? ? 'Exists' : 'Does not exist'
 			para da.derivative_file
 			para da.derivative_url
-			para da.derivative_file.exists? ? 'Exists' : 'Does not exists'
-			exif_info = EXIFR::JPEG.new(da.digital_asset_file.absolute_path)
-			if exif_info.exif?
-		        h = exif_info.exif.to_hash
-		        h.each_pair do |k,v|
-		        	li "#{k.to_s}: #{v}"
-		        end
-	        end
+			para da.derivative_file.exists? ? 'Exists' : 'Does not exist'
+			# exif_info = EXIFR::JPEG.new(da.digital_asset_file.absolute_path)
+			# if exif_info.exif?
+		 #        h = exif_info.exif.to_hash
+		 #        h.each_pair do |k,v|
+			#     	li "#{k.to_s}: #{v}"
+		 #        end
+	  #       end
 		end
 	end
 

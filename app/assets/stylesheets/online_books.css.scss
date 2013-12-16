@@ -41,6 +41,9 @@ $ushmm_headline_med_gray_text:		#666666;
 $ushmm_near_black_bg:					#2a2a28;
 $ushmm_light_gray_for_near_black_bg:	#afafaf;
 
+$ushmm_breadcrumb_text:					#6394d1;
+$ushmm_breadcrumb_text_hover:			#ffffff;
+
 
 @mixin font_1 {
 	font: normal 14px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
@@ -75,37 +78,45 @@ div.dark {
 	height: 100%;
 }
 
-div.heading_container, div.display_container {
+div.display_container{
+	position: absolute;
+	// border: 1px solid red;
+	left: 10px;
+	right: 10px;
+	top: 114px;
+	bottom: 10px;
+	display: block;
 
-	padding-top: 50px;
 	padding-left: 42px;
 	margin: 0 auto;
 	padding-top: 62px;
 }
-
-div.display_container{
-	position: absolute;
-	/*border: 1px solid red;*/
-	left: 10px;
-	right: 10px;
-	top: 164px;
-	bottom: 10px;
-}
 div.heading_container{
 	/*height: 202px;*/
-	height: 100px;
-	width: 980px;
-	/*border: 1px solid orange;*/
+	height: 80px;
+	width: 100%;
+	// border: 1px solid orange;
 	position: relative;
+
+	padding-left: 42px;
+	margin: 0 auto;
+	padding-top: 20px;
 }
 div#selected_page {
-	/*border: 2px solid pink;*/
+	// border: 2px solid pink;
 	position:absolute;
 	top: 2px;
 	bottom: 2px;
 	left: 100px;
-	right: 35%;
+	right: 45%;
 	text-align: center;
+	display: block;
+}
+
+div#selected_page img {
+	max-width: 100%;
+	max-height: 100%;
+	display: block;
 }
 
 div#flip_div {
@@ -115,7 +126,7 @@ div#flip_div {
 	z-index:1;
 	margin:0px auto;
 	overflow:hidden;
-	display:inline;
+	display:block;
 	float:center;
 	// border: solid 4px purple;
 }
@@ -132,34 +143,71 @@ div#flip_div2 {
 
 div#flip_div img {
 	// position: relative;
-	//display: inline-block;
+	display: inline-block;
+	width: auto;
+	height: auto;
 	//text-align: center;
 	//display: block;
 }
 
-div#selected_page img {
-}
+
 
 div#transcript_area {
 	@include serif_font_for_copy;
+	font-size: 9pt;
 	background-color: white;
 	color: black;
-	width: 90%;
+	// width: 92%;
 	text-transform: none;
 	padding-left: 1.5em;
 	padding-right: 1.5em;
 	padding-top: 1em;
 	padding-bottom: 1em;
 	overflow-y: auto;
-	height: 80%
+	// height: 60%
+	position: absolute;
+	top: 70px;
+	bottom: 25px;
+	right: 8px;
+	left: 0px;
+}
+
+div#transcript_area br {
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+#transcript_header {
+	// float: left;
+	// clear: left;
+	// border: 1px solid green;
+	position: absolute;
+	top: 35px;
+	height: 30px;
+}
+
+#transcript_footer {
+	// float: left;
+	// clear: left;
+	// border: 1px solid green;
+	position: absolute;
+	bottom: 5px;
+	height: 30px;
+
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	font-style: normal;
 }
 
 div#info_panel {
 	position: absolute;
-	left: 65%;
+	left: 55%;
 	right: 10px;
 	top: 200px;
-	bottom: 2em;
+	bottom: 10px;
 	margin-left: 10px;
 	// height: 300px;
 	// border: solid 3px blue;
@@ -172,7 +220,7 @@ div#info_panel {
 
 div#clickable-thumbs {
 	overflow-x: scroll; position:absolute;
-	left: 65%;
+	left: 55%;
 	right: 18px;
 	top: 10px;
 	white-space: nowrap;
@@ -189,7 +237,7 @@ div#clickable-thumbs img {
 }
 
 div#clickable-thumbs img.selected_thumbnail {
-	border: 4px solid $ushmm_orange;
+	border: 3px solid $ushmm_orange;
 }
 
 div.page_designation {
@@ -224,11 +272,6 @@ div.page_designation {
 	background-position:0px -36px;
 }
 
-#transcript_header {
-	float: left;
-	clear: left;
-}
-
 #link_area {
 	float: left;
 	padding-left: 3em;
@@ -243,11 +286,11 @@ div.page_designation {
 }
 
 div.logo {
-	/*border: 1px solid green;*/
+	// border: 1px solid green;
 	position: absolute;
 	display: block;
-	right: 54px;
-	top: 34px;
+	right: 74px;
+	top: 14px;
 	text-align: right;
 }
 span.heading {
@@ -257,4 +300,47 @@ span.heading {
 span.breadcrumbs {
 	@include font_for_breadcrumbs;
 }
+span.breadcrumbs a {
+	@include font_for_breadcrumbs;
+	color: $ushmm_breadcrumb_text;
+}
+span.breadcrumbs a:hover {
+	color: $ushmm_breadcrumb_text_hover;	
+}
 
+.ui-dialog {
+	border: none;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+.ui-dialog-content {
+	background-color: yellow;
+	@include serif_font_for_copy;
+
+}
+.ui-dialog-titlebar, .ui-widget-header {
+	background-image: none;
+	background-color: #383838;
+	color: white;
+	border: none;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	margin: -3px;
+}
+.ui-dialog-title {
+	@include font_for_heading;
+	font-size: 16pt;
+	line-height: 16pt;
+	background-image: none;
+	background-color: #383838;
+	color: white;
+}
+.ui-dialog-titlebar-close {
+}
+
+/*
+html, body, div.top_wrapper, div.dark, div.display_container, div#selected_page, div#flip_div, div#flip_div2 {
+	height:100%;
+}*/

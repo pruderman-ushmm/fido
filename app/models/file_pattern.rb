@@ -16,7 +16,7 @@ class FilePattern < ActiveRecord::Base
 
 	def regular_expression
 		rest = pattern
-        new_regex_string = ''
+        new_regex_string = '^'
         tags_used = []
 
         while rest.length > 0 do
@@ -46,6 +46,7 @@ class FilePattern < ActiveRecord::Base
             end
             rest = new_rest
 	    end
+	    new_regex_string += '$'
         new_regex = Regexp.new(new_regex_string)
         new_regex
     end

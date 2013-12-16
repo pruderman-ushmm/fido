@@ -63,8 +63,10 @@ class DigitalAssetFile
 	def image_height
 		unless @image_height
 			hx = FsAssetLib::get_image_dimensions(absolute_path)
-			@image_height = hx[:height]
-			@image_width = hx[:width]
+			if hx
+				@image_height = hx[:height]
+				@image_width = hx[:width]
+			end
 		end
 		return @image_height
 	end
@@ -72,8 +74,10 @@ class DigitalAssetFile
 	def image_width
 		unless @image_width
 			hx = FsAssetLib::get_image_dimensions(absolute_path)
-			@image_height = hx[:height]
-			@image_width = hx[:width]
+			if hx
+				@image_height = hx[:height]
+				@image_width = hx[:width]
+			end
 		end
 		return @image_width
 	end

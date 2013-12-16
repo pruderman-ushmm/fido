@@ -243,6 +243,7 @@ DEPENDENCIES
   historyjs-rails
   jbuilder (~> 1.2)
   jquery-rails
+  jquery-ui-rails
   rails (= 4.0.0)
   rails-settings-cached (= 0.3.1)
   rspec-rails

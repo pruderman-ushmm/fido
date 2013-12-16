@@ -5,8 +5,15 @@
 		# f.input '', type: :text, name: :path_within_archive, value: ingest_collection_directory_admin_digital_collection_path
 		f.input '', type: :submit, value: 'Ingest All'
 	end
+	para link_to "Generate All Derivatives", generate_all_asset_derivatives_admin_digital_collection_path, method: :post
 
    	h3 "Files — #{digital_collection.path_within_archive}"
+   	h4 "Digital Archive: #{APP_SETTINGS['digital_archive_root']}"
+   	h4 "Derivatives: #{APP_SETTINGS['digital_archive_derivative_root']}"
+
+   	if assigns[:big_error]
+   		h2 assigns[:big_error]
+   	else
 
     	table do
     		tr do
@@ -130,3 +137,4 @@
 	    		end
 	    	}
 	    end
+	end

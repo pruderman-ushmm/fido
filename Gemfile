@@ -85,3 +85,6 @@ gem 'active-record-query-trace'
 
 # This is for history.js:
 gem 'historyjs-rails'
+
+
+gem 'jquery-ui-rails'

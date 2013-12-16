@@ -19,4 +19,6 @@
 //= require jquery.flippy.min.js
 //= require history_jquery
 //= require jquery.scrollintoview.min
+//= require jquery.lazyload
 
+//= require jquery.ui.all

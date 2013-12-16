@@ -1,5 +1,7 @@
 Br2::Application.routes.draw do
-  resources :online_books
+  # resources :online_books
+  get 'online_books' => 'online_books#index'
+  get 'online_books/:designation' => 'online_books#show', constraints: { designation: /[-A-Za-z0-9.]+/ }
 
   resources :file_patterns
 

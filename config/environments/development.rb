@@ -38,7 +38,7 @@ end
 
 ## Bullet helps find inefficient db queries: -- PJR
 if Bullet
-  Bullet.enable = true
+  Bullet.enable = false
   Bullet.alert = true
   Bullet.bullet_logger = true
   Bullet.console = true
