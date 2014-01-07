@@ -54,8 +54,10 @@ group :development, :test do
 end
 
 # For ActiveAdmin:
-gem 'activeadmin', github: 'gregbell/active_admin'  # special github so it'll work with Rails 4.  Periodically check if still necessary.
+#gem 'activeadmin', github: 'gregbell/active_admin'  # special github so it'll work with Rails 4.  Periodically check if still necessary.
 #gem 'activeadmin', '= 0.5.1'
+gem 'activeadmin', git:  'https://github.com/gregbell/active_admin.git'  # special github so it'll work with Rails 4.  Periodically check if still necessary.
+
 gem 'devise'
 
 gem 'thin'
