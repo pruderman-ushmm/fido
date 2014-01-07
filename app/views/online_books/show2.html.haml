@@ -47,7 +47,7 @@
 						Learn More about the Rosenberg Diary →
 					%br
 					%a{:href=>'http://collections.ushmm.org/search/catalog/irn73077'}
-						View catalog record →
+						View the catalog record →
 				%div{:id => 'transcript_header'} TRANSCRIPT
 				%div{:id => 'transcript_area'}
 					[no transcript for this page]
@@ -70,7 +70,27 @@
 
 
 :javascript
+
+
+	// Google Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-34936065-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	// GA Event:
+	_gaq.push(['_trackEvent',
+		'Page Viewed by Type',
+		'Alfred Rosenberg diary',
+	]);
+
+
 	$(function() {
+
 
 		oara_next_page_id = function(page_id, step) {
 			//
@@ -184,6 +204,13 @@
 			if (new_page_id) {
 				current_page_id = new_page_id;
 				History.pushState({page_id:new_page_id}, book_data.title + " - Page "+new_page_id+ " - United States Holocaust Memorial Museum", "?page="+new_page_id);
+				_gaq.push(['_trackPageview']);
+				// GA Event:
+				_gaq.push(['_trackEvent',
+					'Page Viewed by Type',
+					'Alfred Rosenberg diary',
+				]);
+
 			}
 		}
 
@@ -319,23 +346,6 @@
 
 			current_page_id = initial_page;  // (global)
 		    History.pushState({page_id: initial_page}, $("title").text(), State.urlPath);
-
-
-		    // Google Analytics
-		    var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-34936065-1']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-			  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-			// GA Event:
-			_gaq.push(['_trackEvent',
-			      'Page Viewed by Type',
-			      'Alfred Rosenberg diary',
-			   ]);
 
 
 		})(window);
