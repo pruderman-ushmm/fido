@@ -137,6 +137,8 @@
 
 		oara_flip_to_page = function(page_id) {
 
+			    // Deactivate zoomer:
+			    oara_deactivate_elevateZoom();
 
 			    var clicked_thumbnail = $('img#thumb_'+page_id)
 
@@ -148,9 +150,6 @@
 				oara_preload_image_for_page_id(oara_next_page_id(page_id, 1));
 				oara_preload_image_for_page_id(oara_next_page_id(page_id, -1));
 				oara_preload_image_for_page_id(oara_next_page_id(page_id, 2));
-
-			    // Deactivate zoomer:
-			    oara_deactivate_elevateZoom();
 
 			    // Remove highlight from all thumbnails:
 			    $('div#clickable-thumbs img').removeClass('selected_thumbnail');
@@ -197,7 +196,7 @@
 		    var page_image = $('#selected_page_image');
 		    page_image.removeData('elevateZoom');
 		    $('.zoomContainer').remove();
-		    //page_image.remove();			
+		    $('.zoomWindow').remove();  // needed to make sure zoom window goes away on page flips
 		}
 
 		oara_change_to_page_id = function(new_page_id) {
