@@ -54,7 +54,9 @@
 				%div{:id => 'transcript_footer'}
 					%a{:href => 'http://www.ushmm.org/copyright-and-legal-information/terms-of-use', :target=>'_blank'} TERMS OF USE
 					&nbsp;|&nbsp;
-					%a{:id => 'open_dialog', :style => 'cursor: pointer;'} TRANSCRIPT INFO
+					// %a{:id => 'open_dialog', :style => 'cursor: pointer;'} TRANSCRIPT INFO
+					// &nbsp;|&nbsp;
+					%a{:id => 'send_feedback_link', :target=>'_blank'} FEEDBACK
 				%div{:id => 'dialog', :style => 'display: none;'}
 					%p
 						This transcript comprises the German text of Alfred Rosenberg’s diary entries from 1936 to 1944. It does not include his entries from 1934 to 1935, held at the National Archives and Records Administration, or related documents, annotations, or references to already published portions of the diary.
@@ -67,6 +69,7 @@
 	!= "book_data = #{@online_book.to_json};"
 	!= "pages_data = #{@online_book_json_data};"
 	!= "page_num_array = #{@page_num_array};"
+	!= "user_ip = '#{@user_ip}';"
 
 
 :javascript
@@ -90,6 +93,26 @@
 
 
 	$(function() {
+
+		oara_build_feedback_url = function() {
+		    // return a link to the Google feedback form
+		    google_form_key = 'dFMzQ0RLU19nNXFRTkg1dFFJNXhfSmc6MQ';
+		    _feedback_url = window.location.href;
+		    _feedback_item_identifier  = null;
+		    _feedback_accession_number = book_data.designation;
+		    _feedback_rg_number        = null;
+		    _feedback_item_title       = book_data.title;
+		    _feedback_user_ip          = user_ip;
+		    _google_form_path = 'https://docs.google.com/a/ushmm.org/spreadsheet/viewform?formkey=' + google_form_key;
+		    _google_form_path_complete  = _google_form_path;
+		    _google_form_path_complete += '&entry_0='  + encodeURIComponent(_feedback_url);
+		    _google_form_path_complete += '&entry_1='  + encodeURIComponent(_feedback_item_identifier);
+		    _google_form_path_complete += '&entry_9='  + encodeURIComponent(_feedback_item_title);
+		    _google_form_path_complete += '&entry_10=' + encodeURIComponent(_feedback_accession_number);
+		    _google_form_path_complete += '&entry_12=' + encodeURIComponent(_feedback_rg_number);
+		    _google_form_path_complete += '&entry_2='  + encodeURIComponent(_feedback_user_ip);
+		    return _google_form_path_complete;
+		}
 
 
 		oara_next_page_id = function(page_id, step) {
@@ -169,6 +192,10 @@
 
 			    // Re-activate zoomer:
 			    // oara_initialize_elevateZoom();
+
+
+			    // Update the URL for the 'send feedback' link:
+			    $('#send_feedback_link').attr('href', oara_build_feedback_url());
 		}
 
 		oara_initialize_elevateZoom = function() {
