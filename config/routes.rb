@@ -3,6 +3,16 @@ Br2::Application.routes.draw do
   get 'online_books' => 'online_books#index'
   get 'online_books/:designation' => 'online_books#show', constraints: { designation: /[-A-Za-z0-9.]+/ }
 
+  get 'online_books/show_thumbnails/:designation/:page_designation' => 'online_books#show_thumbnails', constraints: { designation: /[-A-Za-z0-9.]+/ }
+  get 'online_books/show_page/:designation/:page_designation' => 'online_books#show_page', constraints: { designation: /[-A-Za-z0-9.]+/ }
+  get 'online_books/zoom_page/:designation/:page_designation' => 'online_books#zoom_page', constraints: { designation: /[-A-Za-z0-9.]+/ }
+
+  # get 'online_pages' => 'online_pages#index'
+  # get 'online_pages/:id' => 'online_pages#show'
+#  get 'online_pages/:designation' => 'online_books#show', constraints: { designation: /[-A-Za-z0-9.]+/ }
+
+  resources :online_pages
+
   resources :file_patterns
 
   resources :digital_assets

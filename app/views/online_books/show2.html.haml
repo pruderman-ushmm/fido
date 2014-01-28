@@ -20,11 +20,8 @@
 					%div{:id => 'flip_div2', :style => ''}
 			%div{:id => 'clickable-thumbs', :style => ""}
 				%ul
-					- puts "pagenumarray is #{@page_num_array.inspect}"
 					- @page_num_array.each do |page_id|
-						- puts "Page id is #{page_id}"
 						- page = @pages_hash[page_id]
-						- puts page.inspect
 						%li{:style => 'display: inline; list-style-type: none; padding-right: 10px; padding-bottom: 0; margin-bottom: 0;'}
 							%div{:style => 'display: inline-block;'}
 								%img{:id => "thumb_#{page_id}",
@@ -64,7 +61,6 @@
 						Deletions and emphases in the transcript resemble the original; square brackets enclose transcriber comments on legibility and style. The transcript has not been finalized for spelling ambiguities (especially regarding names) and other peculiarities of the original.
 					
 
-
 %script
 	!= "book_data = #{@online_book.to_json};"
 	!= "pages_data = #{@online_book_json_data};"
@@ -98,11 +94,11 @@
 		    // return a link to the Google feedback form
 		    google_form_key = 'dFMzQ0RLU19nNXFRTkg1dFFJNXhfSmc6MQ';
 		    _feedback_url = window.location.href;
-		    _feedback_item_identifier  = null;
-		    _feedback_accession_number = book_data.designation;
-		    _feedback_rg_number        = null;
-		    _feedback_item_title       = book_data.title;
-		    _feedback_user_ip          = user_ip;
+		    _feedback_item_identifier  = '';
+		    _feedback_accession_number = book_data.designation || '';
+		    _feedback_rg_number        = '';
+		    _feedback_item_title       = book_data.title || '';
+		    _feedback_user_ip          = user_ip || '';
 		    _google_form_path = 'https://docs.google.com/a/ushmm.org/spreadsheet/viewform?formkey=' + google_form_key;
 		    _google_form_path_complete  = _google_form_path;
 		    _google_form_path_complete += '&entry_0='  + encodeURIComponent(_feedback_url);
