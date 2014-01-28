@@ -90,3 +90,10 @@ gem 'historyjs-rails'
 
 
 gem 'jquery-ui-rails'
+
+
+gem 'pry', group: :development
+gem 'pry-rails', group: :development
+gem 'pry-nav', group: :development
+
+gem 'awesome_print'
