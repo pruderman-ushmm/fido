@@ -1,0 +1,11 @@
+
+<%= form_tag(online_page_path(@online_page), :method => :put) do %>
+	<%= label_tag('digital_asset[page_number]', 'Page number:') %>
+	<%= text_field_tag('digital_asset[page_number]', @online_page.digital_asset.page_number ) %>
+
+	<%= label_tag('digital_asset[page_transcript]', 'Transcript:') %>
+	<%= text_area_tag('digital_asset[page_transcript]', @online_page.digital_asset.page_transcript) %>
+
+	<%= submit_tag('Update') %>
+
+<% end %>

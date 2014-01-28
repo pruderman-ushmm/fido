@@ -1,0 +1,77 @@
+// Place all the styles related to the online_books controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+$ushmm_blue: 			#4f6d91;
+$ushmm_blue_highlight:	#699ad6;
+$ushmm_blue_dark:		#32465e;
+
+$ushmm_orange:			#e67700;
+$ushmm_orange_highlight: #289a14;
+
+$ushmm_beige:			#f1ede8;
+
+$ushmm_white:			#ffffff;
+
+
+// special:
+$ushmm_light_gray_box:	#dfdfdf;
+
+
+
+// oddballs:
+$ushmm_subscribe_text_input_text:	#666666;
+$ushmm_subscribe_text_input_bg:		#e1e1e1;
+$ushmm_search_text_input_text:		#afafaf;
+$ushmm_search_text_input_bg:		#383838;
+
+$ushmm_footer_bg_med_gray:			#303030;
+$ushmm_footer_bg_near_black:		#111111;
+
+$ushmm_translater_footer_bg:		#191919;
+
+
+// grays for light background:
+$ushmm_near_black_text:				#121212;
+$ushmm_typical_dark_gray_text:		#444242;
+$ushmm_headline_med_gray_text:		#666666;
+
+// grays for dark background
+$ushmm_near_black_bg:					#2a2a28;
+$ushmm_light_gray_for_near_black_bg:	#afafaf;
+
+$ushmm_breadcrumb_text:					#6394d1;
+$ushmm_breadcrumb_text_hover:			#ffffff;
+
+
+@mixin font_1 {
+	font: normal 14px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+@mixing font_2 {
+	/*font: normal 400 17px/18px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+	/*font: normal 400 42px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+	/*font: normal 24px/30px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;*/
+}
+@mixin font_for_breadcrumbs {
+	margin: 0 0 0.4em; color: #666; font: bold 11px Helvetica, Arial, sans-serif; text-transform: uppercase;
+}
+@mixin font_for_heading {
+	font: normal 400 40px/48px 'Knockout 50 A', 'Knockout 50 B', 'Arial Narrow', 'Trebuchet MS', Helvetica, sans-serif;
+}
+@mixin font_1_italic {
+	font: italic 16px/22px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+@mixin serif_font_for_copy {
+	font: normal 14px 'Mercury SSm A', 'Mercury SSm B', Palatino, 'Palatino Linotype', Georgia, serif;
+}
+
+#digital_asset_page_number {
+	width: 8em;
+}
+
+#digital_asset_page_transcript {
+	width: 60em;
+	height: 40em;
+	font-size: 12pt;
+}

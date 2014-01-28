@@ -1,0 +1,25 @@
+<html>
+<head>
+	<style>
+		div.thumbnail {
+			border: solid 1px blue;
+			float: left;
+			width: 10em;
+			text-align: center;
+			padding: 1em;
+		}
+	</style>
+</head>
+<body>
+	<% @online_pages_seq_array.each do |online_page_designation| %>
+		<% online_page = @online_pages_hash[online_page_designation] %>
+			<a href="/online_books/show_page/<%= @online_book.designation %>/<%= online_page[:designation] %>">
+				<div class="thumbnail" >
+					<img src="<%= online_page[:derivative_url] %>" />
+					<br/>
+					<%= online_page[:designation] %>
+				</div>
+			</a>
+	<% end %>
+</body>
+</html>

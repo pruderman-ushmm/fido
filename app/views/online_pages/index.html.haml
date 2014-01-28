@@ -1,0 +1,16 @@
+Book Pages:
+%table
+	%tr
+		%td Digital Asset Designation
+		%td Page Number
+		/ %td Page Side
+		/ %td Page Title
+		%td Page Transcript
+	- @online_pages.sort_by {|a| a.digital_asset.designation.to_i  }.each do |page|
+		%tr
+			%td= link_to(page.digital_asset.designation, page)
+			%td= link_to(page.digital_asset.designation, {:controller => 'online_pages', :action => 'edit', :id => page.id})
+			%td= page.digital_asset.page_number
+			/ %td= page.digital_asset.page_side
+			/ %td= page.digital_asset.page_title
+			%td= page.digital_asset.page_transcript
