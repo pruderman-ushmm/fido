@@ -1,39 +1,17 @@
-<html>
-<head>
+<% content_for :header do %>
+	<h1><%= @online_book.title %></h1>
+	<h2><%= @online_page[:designation] %> (<%= @online_page[:page_side] %>)</h2>
+	[Leave Feedback]
+<% end %>
+
+<% content_for :footer do %>
+	[about this collection][catalog record]
+<% end %>
+
 	<meta name="MobileOptimized" content="320">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<script>
-		var browser_data = '';
-		browser_data += "window.devicePixelRatio: " + window.devicePixelRatio;
-		browser_data += "\n";
-		browser_data += "window.innerWidth x .innerHeight: " + window.innerWidth + 'x' + window.innerHeight;
-		browser_data += "\n";
-		browser_data += "window.outerWidth x .outerHeight: " + window.outerWidth + 'x' + window.outerHeight;
-		browser_data += "\n";
-		browser_data += "window.screenLeft, .screenTop: " + window.screenLeft + 'x' + window.screenTop;
-		browser_data += "\n";
-		browser_data += "window.screenX, .screenY: " + window.screenX + 'x' + window.screenY;
-		browser_data += "\n";
-		browser_data += "window.scrollX, .scrolleenY: " + window.scrollX + 'x' + window.scrollY;
-		browser_data += "\n";
-		browser_data += "window.screen.availWidth, .availHeight: " + window.screen.availWidth + 'x' + window.screen.availHeight;
-		browser_data += "\n";
-		browser_data += "window.screen.width, .height: " + window.screen.width + 'x' + window.screen.height;
-		browser_data += "\n";
-		browser_data += "window.screen.left, .top: " + window.screen.left + 'x' + window.screen.top;
-		browser_data += "\n";
-		browser_data += "window.screen.availLeft, .availTop: " + window.screen.availLeft + 'x' + window.screen.availTop;
-		browser_data += "\n";
-		// alert(browser_data);
-	</script>
-</head>
 
-<body>
-	<heading>
-		<h1><%= @online_book.title %></h1>
-		<h2><%= @online_page[:designation] %> (<%= @online_page[:page_side] %>)</h2>
-	</heading>
 
 	<div>
 		<a href="/online_books/zoom_page/<%= @online_book.designation %>/<%= @online_page[:designation] %>">
@@ -44,4 +22,4 @@
 		</div>
 	</div>
 
-</body>
+

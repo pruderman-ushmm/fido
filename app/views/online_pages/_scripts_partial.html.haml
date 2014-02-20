@@ -1,0 +1,51 @@
+%script
+	!= "book_data = #{@online_book.to_json};"
+	!= "page_num_array = #{@page_num_array};"
+	!= "user_ip = '#{@user_ip}';"
+
+
+:javascript
+
+
+	// Google Analytics
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-34936065-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+	// GA Event:
+	_gaq.push(['_trackEvent',
+		'Page Viewed by Type',
+		'Alfred Rosenberg diary',
+	]);
+
+
+	$(function() {
+
+		oara_build_feedback_url = function() {
+		    // return a link to the Google feedback form
+		    google_form_key = 'dFMzQ0RLU19nNXFRTkg1dFFJNXhfSmc6MQ';
+		    _feedback_url = window.location.href;
+		    _feedback_item_identifier  = '';
+		    _feedback_accession_number = book_data.designation || '';
+		    _feedback_rg_number        = '';
+		    _feedback_item_title       = book_data.title || '';
+		    _feedback_user_ip          = user_ip || '';
+		    _google_form_path = 'https://docs.google.com/a/ushmm.org/spreadsheet/viewform?formkey=' + google_form_key;
+		    _google_form_path_complete  = _google_form_path;
+		    _google_form_path_complete += '&entry_0='  + encodeURIComponent(_feedback_url);
+		    _google_form_path_complete += '&entry_1='  + encodeURIComponent(_feedback_item_identifier);
+		    _google_form_path_complete += '&entry_9='  + encodeURIComponent(_feedback_item_title);
+		    _google_form_path_complete += '&entry_10=' + encodeURIComponent(_feedback_accession_number);
+		    _google_form_path_complete += '&entry_12=' + encodeURIComponent(_feedback_rg_number);
+		    _google_form_path_complete += '&entry_2='  + encodeURIComponent(_feedback_user_ip);
+		    return _google_form_path_complete;
+		};
+
+	    $('#feedback_button').attr('href', oara_build_feedback_url());  // needs to be executed after page changes (e.g. with ajax)
+
+	})

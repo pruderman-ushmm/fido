@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+  <title><%= yield :title %></title>
+  <link href='//cloud.typography.com/683468/690822/css/fonts.css' rel='stylesheet' type='text/css' />
+  <%= stylesheet_link_tag    "online_pages", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+
+
+ 	<script>
+		var browser_data = '';
+		browser_data += "window.devicePixelRatio: " + window.devicePixelRatio;
+		browser_data += "\n";
+		browser_data += "window.innerWidth x .innerHeight: " + window.innerWidth + 'x' + window.innerHeight;
+		browser_data += "\n";
+		browser_data += "window.outerWidth x .outerHeight: " + window.outerWidth + 'x' + window.outerHeight;
+		browser_data += "\n";
+		browser_data += "window.screenLeft, .screenTop: " + window.screenLeft + 'x' + window.screenTop;
+		browser_data += "\n";
+		browser_data += "window.screenX, .screenY: " + window.screenX + 'x' + window.screenY;
+		browser_data += "\n";
+		browser_data += "window.scrollX, .scrolleenY: " + window.scrollX + 'x' + window.scrollY;
+		browser_data += "\n";
+		browser_data += "window.screen.availWidth, .availHeight: " + window.screen.availWidth + 'x' + window.screen.availHeight;
+		browser_data += "\n";
+		browser_data += "window.screen.width, .height: " + window.screen.width + 'x' + window.screen.height;
+		browser_data += "\n";
+		browser_data += "window.screen.left, .top: " + window.screen.left + 'x' + window.screen.top;
+		browser_data += "\n";
+		browser_data += "window.screen.availLeft, .availTop: " + window.screen.availLeft + 'x' + window.screen.availTop;
+		browser_data += "\n";
+		// alert(browser_data);
+
+		$('body').delay('1000').animate({ scrollTop: '0px' }, 'slow');
+	</script>
+
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+	<div class='logo'>
+		<a class='logo-link' href='http://www.ushmm.org/'>
+			<img alt="USHMM Logo" src="http://www.ushmm.org/a/titles/logo-alt-head.png" />
+		</a>
+	</div>
+
+	<header><%= yield :header %></header>
+
+	<div id="page_area">
+		<%= yield :page_area %>
+	</div>
+
+
+	<div id="info_area">
+		<%= yield :info_area %>
+	</div>
+
+	<div id="thumb_area">
+		<%= yield :thumb_area %>
+	</div>
+
+
+	<footer><%= yield :footer %></footer>
+
+
+
+</body>
+</html>

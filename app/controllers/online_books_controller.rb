@@ -33,12 +33,6 @@ class OnlineBooksController < ApplicationController
 		@online_book_json_data = @pages_hash.to_json
 
 		@user_ip = request.remote_ip  ## does this work under apache?
-		puts "RRR: ";
-		require "awesome_print"
-		pp request;
-		x = { :a => 1, :b => "a string", :c => [1,2,[3,4]], :d => Time.now  }
-		ap x
-
 
 		respond_to do |responder|
 			responder.html { render 'show2.html' }
@@ -101,13 +95,16 @@ class OnlineBooksController < ApplicationController
 				# designation: page.collection_component.designation
 				designation: page.designation
 			}
+
+		@next_page = @online_page
+		@prev_page = @online_page
 	end
 
 	def show_page
 		lookup_page params[:designation], params[:page_designation]
 
 		respond_to do |responder|
-			responder.html { render 'show_page.html' }
+			responder.html { render 'show_page.html', layout: 'new' }
 			# responder.json { render json: @online_book_json_data  }
 		end
 	end

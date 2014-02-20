@@ -7,6 +7,9 @@ Br2::Application.routes.draw do
   get 'online_books/show_page/:designation/:page_designation' => 'online_books#show_page', constraints: { designation: /[-A-Za-z0-9.]+/ }
   get 'online_books/zoom_page/:designation/:page_designation' => 'online_books#zoom_page', constraints: { designation: /[-A-Za-z0-9.]+/ }
 
+
+  get 'online_pages/show_page/:book_designation/:page_designation' => 'online_pages#show', constraints: { book_designation: /[-A-Za-z0-9.]+/ }
+
   # get 'online_pages' => 'online_pages#index'
   # get 'online_pages/:id' => 'online_pages#show'
 #  get 'online_pages/:designation' => 'online_books#show', constraints: { designation: /[-A-Za-z0-9.]+/ }

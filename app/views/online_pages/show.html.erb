@@ -1,0 +1,72 @@
+
+<% content_for :header do %>
+	<h1><%= @online_book.title %> <%= @online_book.title %></h1>
+<% end %>
+
+
+<% content_for :page_area do %>
+	<%= render 'scripts_partial' %>
+		<!-- <a href="/online_books/zoom_page/<%= @online_book.designation %>/<%= @online_page[:designation] %>"> -->
+		<a href="http://collections.ushmm.org/webcollections/full//2001.62.14/2001.62.14_0007.jpg">
+			<!-- <noimg src="<%= @online_page[:url] %>" /> -->
+			<div>
+				<img src="http://collections.ushmm.org/webcollections/full//2001.62.14/2001.62.14_0007.jpg"/>
+				<!-- <img src="http://www.ushmm.org/m/img/2413438-640x410.jpg"/> -->
+			</div>
+
+		</a>
+<% end %>
+
+<% content_for :thumb_area do %>
+	<ul style="margin-top: 3px; margin-bottom: 0px;">
+		<% @page_num_array.each do |page_id| %>
+			<% page = @pages_hash[page_id] %>
+			<li style="display:inline; list-style-type:none; padding-right:10px; padding-bottom:0; margin-top: 0;">
+				<div style="display:inline-block; border: 1px solid green; margin: 0;">
+					<img id="thumb_#<%= page_id %>"
+						data-original="<%= page[:derivative_url] %>"
+						src="<%= page[:derivative_url] %>"
+						style="height:<%= page[:derivative_height].to_s %>; width:<%= page[:derivative_width].to_s %>; margin: 0;"
+						class='lazy' data-page_id=<%= page_id %>>
+					<div class="page_designation">
+						<%= page[:designation] %>
+					</div>
+				</div>
+			</li>
+		<% end %>
+	</ul>
+<% end %>
+
+
+<% content_for :info_area do %>
+	<div id="page_transcript_heading">
+		Page Transcript
+	</div>
+	<div id="page_transcript">
+		<%= @online_page[:transcript] %>
+	</div>
+
+		<a id="thumbnails_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">&lt;&nbsp;Thumbnails</a>
+		<a id="feedback_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">Feedback</a>
+		<a id="terms_of_use_button" href="http://www.ushmm.org/copyright-and-legal-information/terms-of-use" target="_blank" class="ushmm_button">Terms&nbsp;of&nbsp;Use</a>
+
+		<a id="transcript_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">Page&nbsp;Transcript</a>
+		<a id="learn_more_button" href="http://www.ushmm.org/information/exhibitions/online-features/special-focus/the-alfred-rosenberg-diary" class="ushmm_button historical">Learn&nbsp;More</a>
+		<a id="catalog_record_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">Catalog&nbsp;Record</a>
+
+		<a id="prev_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">&lt;&nbsp;Prev</a>
+		<a id="zoom_button" href="<%= @online_page[:url] %>" class="ushmm_button"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="16px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+
+				<path fill="#ffffff" fill-rule="evenodd" clip-rule="evenodd" d="M497.914,497.914c-18.783,18.781-49.226,18.781-68.008,0l-84.863-84.864
+					c-34.889,22.366-76.131,35.718-120.66,35.718C100.468,448.768,0,348.314,0,224.384S100.468,0,224.383,0
+					c123.931,0,224.384,100.453,224.384,224.384c0,44.529-13.352,85.771-35.718,120.675l84.864,84.848
+					C516.695,448.689,516.695,479.131,497.914,497.914z M224.383,64.11c-88.511,0-160.274,71.763-160.274,160.274
+					c0,88.526,71.763,160.274,160.274,160.274c88.527,0,160.274-71.748,160.274-160.274C384.657,135.873,312.91,64.11,224.383,64.11z
+					 M256.438,320.548h-64.109v-64.109h-64.109v-64.109h64.109v-64.11h64.109v64.11h64.11v64.109h-64.11V320.548z"/>
+			</svg></a>
+		<a id="next_button" href="/learn/holocaust-encyclopedia/" class="ushmm_button">Next&nbsp;&gt;</a>
+
+<% end %>
+
+
+
